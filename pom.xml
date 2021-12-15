@@ -27,7 +27,7 @@
     <dependency>
       <groupId>net.coderazzi</groupId>
       <artifactId>openapi4aws</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
