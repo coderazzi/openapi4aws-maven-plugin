@@ -10,7 +10,34 @@
 
   <name>openapi4aws-maven-plugin Maven Plugin</name>
 
-  <url>https://coderazzi.net/opeanapi4aws</url>
+  <url>https://coderazzi.net/openapi4aws</url>
+
+  <organization>
+    <name>coderazzi</name>
+    <url>https://coderazzi.net</url>
+  </organization>
+  <developers>
+    <developer>
+      <organization>coderazzi</organization>
+      <name>LuisM Pena</name>
+      <email>lu@coderazzi.net</email>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+  <issueManagement>
+    <url>https://github.com/coderazzi/openapi4aws-maven-plugin/issues</url>
+  </issueManagement>
+  <scm>
+    <url>https://github.com/coderazzi/openapi4aws-maven-plugin</url>
+    <connection>scm:git:ssh://git@github.com/coderazzi/openapi4aws-maven-plugin</connection>
+    <developerConnection>scm:git:ssh://git@github.com/coderazzi/openapi4aws-maven-plugin</developerConnection>
+    <tag>openapi4aws-maven-plugin-1.0.1</tag>
+  </scm>
 
   <prerequisites>
     <maven>${maven.version}</maven>
@@ -131,7 +158,87 @@
                 <target>8</target>
             </configuration>
         </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <tagBase>file:///home/coderazzi/development/openapi4aws-maven-plugin</tagBase>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doctitle>openapi4aws-maven-plugin</doctitle>
+          <show>protected</show>
+          <links>
+            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+          </links>
+          <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+  </distributionManagement>
 
 </project>
