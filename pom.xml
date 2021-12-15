@@ -4,7 +4,7 @@
 
   <groupId>net.coderazzi</groupId>
   <artifactId>openapi4aws-maven-plugin</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <packaging>maven-plugin</packaging>
 
   <name>openapi4aws-maven-plugin Maven Plugin</name>
@@ -36,7 +36,7 @@
     <url>https://github.com/coderazzi/openapi4aws-maven-plugin</url>
     <connection>scm:git:ssh://git@github.com/coderazzi/openapi4aws-maven-plugin</connection>
     <developerConnection>scm:git:ssh://git@github.com/coderazzi/openapi4aws-maven-plugin</developerConnection>
-    <tag>openapi4aws-maven-plugin-1.0.1</tag>
+    <tag>openapi4aws-maven-plugin-1.0.2</tag>
   </scm>
 
   <prerequisites>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>net.coderazzi</groupId>
       <artifactId>openapi4aws</artifactId>
-      <version>${project.version}</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
