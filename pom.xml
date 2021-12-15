@@ -5,7 +5,7 @@
 
   <groupId>net.coderazzi</groupId>
   <artifactId>openapi4aws-maven-plugin</artifactId>
-  <version>1.0.6-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>openapi4aws-maven-plugin Maven Plugin</name>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>net.coderazzi</groupId>
       <artifactId>openapi4aws</artifactId>
-      <version>1.0.6-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
