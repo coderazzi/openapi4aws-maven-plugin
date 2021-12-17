@@ -87,10 +87,24 @@ It is possible to define this long XML configuration in one or more external fil
 a mix of in-pom definitions and external property files. For example:
 
     <configuration>
-        <external>openapi4aws.settings</external>
-        <transforms>
-            <transform>
-                <input>use.yaml</input>
-            </transform>
-        </transforms>
+      <external>openapi4aws.settings</external>
+      <transforms>
+        <transform>
+          <input>use.yaml</input>
+        </transform>
+      </transforms>
     </configuration>
+
+The external file defines the configuration values using the openapi4aws cli configuration:
+https://github.com/coderazzi/openapi4aws 
+. An example of such configuration file is:
+
+    # a comment
+    authorizer.name=DubaixCognito,Other
+    authorizer.identity-source=$request.header.Authorization
+    authorizer.audience=2f0m9fcoiejij4316u574aq259,7ac34sujrb8gmvj2b6blpi7ruu
+    authorizer.issuer=https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_1T9bfKHNp
+
+    tag.Frontend=http://3.64.241.104:12121/tmp/,DubaixCognito,user.email,user.id
+    path.user.scope2=http://OTHER_PATH:12122/path,Other,user.email
+
