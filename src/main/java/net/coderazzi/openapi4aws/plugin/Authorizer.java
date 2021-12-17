@@ -15,9 +15,20 @@ public class Authorizer extends ConfigurationParameter implements Configuration.
     private String name;
     private String identitySource;
     private String issuer;
-    private List<String> audiences;
+    private List<String> audience;
     private String authorizationType = AUTHORIZATION_TYPE;
     private String type = TYPE;
+
+    static Authorizer copyFrom(String name, Configuration.Authorizer base) {
+        Authorizer ret = new Authorizer();
+        ret.name = name;
+        ret.identitySource = base.getIdentitySource();
+        ret.issuer = base.getIssuer();
+        ret.audience = base.getAudience();
+        ret.authorizationType = base.getAuthorizationType();
+        ret.type = base.getType();
+        return ret;
+    }
 
     public String getName() {
         return name;
@@ -30,7 +41,7 @@ public class Authorizer extends ConfigurationParameter implements Configuration.
 
     @Override
     public List<String> getAudience() {
-        return audiences;
+        return audience;
     }
 
     @Override
@@ -58,8 +69,8 @@ public class Authorizer extends ConfigurationParameter implements Configuration.
         requireField(name, "name");
         requireField(identitySource, "identity source");
         requireField(issuer, "issuer");
-        requireField(audiences, "audiences");
-        if (audiences.size() == 0) {
+        requireField(audience, "audiences");
+        if (audience.size() == 0) {
             throwException("Authorizer definition does not include any audience values");
         }
         requireValue(authorizationType, AUTHORIZATION_TYPE, "authorization type");
