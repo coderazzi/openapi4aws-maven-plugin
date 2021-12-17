@@ -30,10 +30,17 @@ please refer to the openapi4aws utility (https://github.com/coderazzi/openapi4aw
               <name>DubaixCognito</name>
               <identity-source>$request.header.Authorization</identity-source>
               <issuer>https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_1T9bfKHNp</issuer>
-              <audiences>
-                <audience>2f0m9fcoiejij4316u574aq259</audience>
-                <audience>7ac34sujrb8gmvj2b6blpi7ruu</audience>
-              </audiences>
+              <audience>
+                <id>2f0m9fcoiejij4316u574aq259</id>
+                <id>7ac34sujrb8gmvj2b6blpi7ruu</id>
+              </audience>
+              <authorization-type>oauth2</authorization-type>
+            </authorizer>
+            <authorizer>
+              <name>Unused</name>
+              <identity-source>$request.header.Authorization</identity-source>
+              <issuer>https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_1T9bfKHNp</issuer>
+              <audience>2f0m9fcoiejij4316u574aq259</audience>
               <authorization-type>oauth2</authorization-type>
             </authorizer>
           </authorizers>
@@ -54,10 +61,15 @@ please refer to the openapi4aws utility (https://github.com/coderazzi/openapi4aw
           </integrations>
           <transforms>
             <transform>
-              <filenames>
-                <filename>use.yaml</filename>
-              </filenames>
+              <input>use.yaml</input>
+              <glob-input>*.properties</glob-input>
               <output-folder>target</output-folder>
+            </transform>
+            <transform>
+              <input>
+                <filename>use.yaml</filename>
+                <filename>other.yaml</filename>
+              </input>
             </transform>
           </transforms>
         </configuration>
@@ -71,4 +83,14 @@ please refer to the openapi4aws utility (https://github.com/coderazzi/openapi4aw
         </executions>
       </plugin>
 
+It is possible to define this long XML configuration in one or more external files, or just using 
+a mix of in-pom definitions and external property files. For example:
 
+    <configuration>
+        <external>openapi4aws.settings</external>
+        <transforms>
+            <transform>
+                <input>use.yaml</input>
+            </transform>
+        </transforms>
+    </configuration>

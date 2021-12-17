@@ -1,5 +1,6 @@
 package net.coderazzi.openapi4aws.plugin;
 
+import net.coderazzi.openapi4aws.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.Locale;
@@ -7,6 +8,15 @@ import java.util.Locale;
 public class TagIntegration extends Integration {
 
     private String tag;
+
+    static TagIntegration copyFrom(String tag, Configuration.Integration base) {
+        TagIntegration ret = new TagIntegration();
+        ret.tag = tag;
+        ret.uri = base.getUri("");
+        ret.authorizer = base.getAuthorizer();
+        ret.scopes = base.getScopes();
+        return ret;
+    }
 
     public String getTag() {
         return tag;
@@ -23,7 +33,7 @@ public class TagIntegration extends Integration {
         requireField(tag, "tag");
         tag = tag.toLowerCase(Locale.ROOT);
         if (uri.endsWith("/")) {
-            uri = uri.substring(0, uri.length()-1);
+            uri = uri.substring(0, uri.length() - 1);
         }
     }
 

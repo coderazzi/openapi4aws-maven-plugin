@@ -4,11 +4,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 abstract class ConfigurationParameter {
 
-    public abstract void check() throws MojoExecutionException;
-
-    protected void throwException(String msg) throws MojoExecutionException {
-        throw new MojoExecutionException(this, msg, msg);
+    public static void throwException(String msg) throws MojoExecutionException {
+        throw new MojoExecutionException(null, msg, msg);
     }
+
+    public abstract void check() throws MojoExecutionException;
 
     protected void requireField(Object field, String fieldName) throws MojoExecutionException {
         if (field == null) {
@@ -23,7 +23,7 @@ abstract class ConfigurationParameter {
         }
     }
 
-    protected String getElementName() {
+    public String getElementName() {
         return getClass().getSimpleName().replaceAll("([^^])([A-Z][a-z])", "$1-$2").toLowerCase();
     }
 }

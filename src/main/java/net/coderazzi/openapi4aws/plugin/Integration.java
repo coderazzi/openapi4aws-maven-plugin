@@ -8,8 +8,8 @@ import java.util.List;
 abstract class Integration extends ConfigurationParameter implements Configuration.Integration {
 
     protected String uri;
-    private String authorizer;
-    private List<String> scopes;
+    protected String authorizer;
+    protected List<String> scopes;
 
     public String getAuthorizer() {
         return authorizer;
