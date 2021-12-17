@@ -1,21 +1,19 @@
 package net.coderazzi.openapi4aws.plugin;
 
-import org.apache.maven.plugin.MojoExecutionException;
-
 import java.util.List;
 
 public class Transform extends ConfigurationParameter {
 
-    private List<String> filenames;
-    private List<String> globs;
+    private List<String> input;
+    private List<String> globInput;
     private String outputFolder;
 
-    public List<String> getFilenames() {
-        return filenames;
+    public List<String> getInput() {
+        return input;
     }
 
-    public List<String> getGlobs() {
-        return globs;
+    public List<String> getGlobInput() {
+        return globInput;
     }
 
     public String getOutputFolder() {
@@ -23,10 +21,7 @@ public class Transform extends ConfigurationParameter {
     }
 
     @Override
-    public void check() throws MojoExecutionException {
-        if ((filenames == null || filenames.isEmpty()) && (globs == null || globs.isEmpty())) {
-            throwException(String.format("Missing filenames or globs in %s definition", getElementName()));
-        }
+    public void check() {
     }
 
 }
