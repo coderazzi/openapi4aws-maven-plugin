@@ -21,36 +21,35 @@ import java.util.Map;
 @Mojo(name = "transform", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class OpenApi4AwsMojo extends AbstractMojo {
     @Parameter
-    private List<Authorizer> authorizers;
+    final private List<Authorizer> authorizers = new ArrayList<>();
     @Parameter
-    private List<Integration> integrations;
+    final private List<Integration> integrations = new ArrayList<>();
     @Parameter
-    private List<Transform> transforms;
+    final private List<Transform> transforms = new ArrayList<>();
     @Parameter
-    private List<String> external;
+    final private List<String> external = new ArrayList<>();
 
     public void execute() throws MojoExecutionException {
         try {
             List<Task> tasks = new ArrayList<>();
-            if (external != null) {
-                for (String each : external) {
-                    try {
-                        CliParser parser = new CliParser(each);
-                        addToList(authorizers, parser.getAuthorizers(), Authorizer::copyFrom);
-                        addToList(integrations, parser.getPathIntegrations(), PathIntegration::copyFrom);
-                        addToList(integrations, parser.getTagIntegrations(), TagIntegration::copyFrom);
-                        tasks.add(new Task(parser.getPaths(), parser.getOutputFolder()));
-                    } catch (O4A_Exception iex) {
-                        throw new MojoExecutionException("External file '" + each + "': " + iex.getMessage(), iex);
-                    }
+            for (String each : external) {
+                try {
+                    CliParser parser = new CliParser(each);
+                    addToList(authorizers, parser.getAuthorizers(), Authorizer::copyFrom);
+                    addToList(integrations, parser.getPathIntegrations(), PathIntegration::copyFrom);
+                    addToList(integrations, parser.getTagIntegrations(), TagIntegration::copyFrom);
+                    tasks.add(new Task(parser.getPaths(), parser.getOutputFolder()));
+                } catch (O4A_Exception iex) {
+                    throw new MojoExecutionException("External file '" + each + "': " + iex.getMessage(), iex);
                 }
             }
-            ConfigurationAdapter adapter = new ConfigurationAdapter(authorizers, integrations);
+            ConfigurationAdapter adapter = new ConfigurationAdapter(authorizers, integrations, getLog());
             Openapi4AWS openapi4AWS = new Openapi4AWS(adapter);
 
             try {
                 for (Transform t : transforms) {
-                    tasks.add(new Task(adapter.getPaths(t), Paths.get(t.getOutputFolder())));
+                    String o = t.getOutputFolder();
+                    tasks.add(new Task(adapter.getPaths(t), o==null? null : Paths.get(o)));
                 }
             } catch (IOException io) {
                 throw new MojoExecutionException(io.toString(), io);

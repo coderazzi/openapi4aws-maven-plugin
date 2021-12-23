@@ -2,6 +2,7 @@ package net.coderazzi.openapi4aws.plugin;
 
 import net.coderazzi.openapi4aws.Configuration;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,10 +15,13 @@ class ConfigurationAdapter extends Configuration {
     private final Map<String, Authorizer> authorizers;
     private final Map<String, PathIntegration> pathIntegrations;
     private final Map<String, TagIntegration> tagIntegrations;
+    private final Log log;
 
     ConfigurationAdapter(List<net.coderazzi.openapi4aws.plugin.Authorizer> authorizers,
-                         List<net.coderazzi.openapi4aws.plugin.Integration> integrations)
+                         List<net.coderazzi.openapi4aws.plugin.Integration> integrations,
+                         Log log)
             throws MojoExecutionException {
+        this.log = log;
 
         List<PathIntegration> pathIntegrations = integrations
                 .stream()
@@ -51,11 +55,20 @@ class ConfigurationAdapter extends Configuration {
 
     @Override
     public Integration getIntegration(String path, List<String> tags) {
-        return getIntegration(path, tags, pathIntegrations, tagIntegrations);
+        Integration ret = getIntegration(path, tags, pathIntegrations, tagIntegrations);
+        log.debug(String.format("integration for %s, with tags %s, returning %s",
+                path, String.join("/", tags), ret==null? "null" : ret.getAuthorizer()));
+        return ret;
     }
 
     public Collection<Path> getPaths(Transform transform) throws IOException {
-        return getPaths(transform.getInput(), transform.getGlobInput());
+        Collection<Path> ret = getPaths(transform.getInput(), transform.getGlobInput());
+        if (ret.isEmpty()) {
+            log.debug("Transform defined no paths");
+        } else {
+            ret.forEach( x -> log.info("Path to handle: " + x.toString()));
+        }
+        return ret;
     }
 
     /**
