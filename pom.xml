@@ -54,7 +54,7 @@
     <dependency>
       <groupId>net.coderazzi</groupId>
       <artifactId>openapi4aws</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
+      <version>1.2.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
